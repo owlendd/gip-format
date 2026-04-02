@@ -2639,9 +2639,12 @@ setTimeout(animateCounters, 1200);
 
 // === IFRAME MODE ===
 if (window !== window.top) {
-  // Fix hero height: replace 100vh with fixed px to avoid infinite loop
+  // Fix hero height: use window.innerHeight (actual viewport) instead of 100vh (which causes loop)
   const hero = document.querySelector('.hero');
-  if (hero) hero.style.minHeight = '700px';
+  if (hero) {
+    const vh = window.innerHeight || 900;
+    hero.style.minHeight = Math.max(vh, 700) + 'px';
+  }
 
   // Fix nav position
   const navEl = document.getElementById('nav');
