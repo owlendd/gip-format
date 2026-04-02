@@ -2636,6 +2636,33 @@ function animateCounters() {
   });
 }
 setTimeout(animateCounters, 1200);
+
+// === IFRAME AUTO-RESIZE ===
+// Sends page height to parent (Tilda) so iframe can resize
+function sendHeight() {
+  const height = document.documentElement.scrollHeight;
+  window.parent.postMessage({ type: 'iframeHeight', height: height }, '*');
+}
+// Send height on load, resize, and periodically (for dynamic content)
+window.addEventListener('load', () => { setTimeout(sendHeight, 800); });
+window.addEventListener('resize', sendHeight);
+new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+
+// === DISABLE FIXED NAV IN IFRAME ===
+// Fixed nav doesn't work well inside iframe
+if (window !== window.top) {
+  const navEl = document.getElementById('nav');
+  if (navEl) {
+    navEl.style.position = 'absolute';
+  }
+  // Make all reveal elements visible immediately (IntersectionObserver can be unreliable in iframes)
+  document.querySelectorAll('.reveal, .stagger-item').forEach(el => {
+    el.classList.add('visible');
+  });
+  // Disable preloader in iframe
+  const preloader = document.getElementById('preloader');
+  if (preloader) preloader.classList.add('hidden');
+}
 </script>
 
 </body>
