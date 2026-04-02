@@ -2637,31 +2637,30 @@ function animateCounters() {
 }
 setTimeout(animateCounters, 1200);
 
-// === IFRAME AUTO-RESIZE ===
-// Sends page height to parent (Tilda) so iframe can resize
-function sendHeight() {
-  const height = document.documentElement.scrollHeight;
-  window.parent.postMessage({ type: 'iframeHeight', height: height }, '*');
-}
-// Send height on load, resize, and periodically (for dynamic content)
-window.addEventListener('load', () => { setTimeout(sendHeight, 800); });
-window.addEventListener('resize', sendHeight);
-new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
-
-// === DISABLE FIXED NAV IN IFRAME ===
-// Fixed nav doesn't work well inside iframe
+// === IFRAME MODE ===
 if (window !== window.top) {
+  // Fix hero height: replace 100vh with fixed px to avoid infinite loop
+  const hero = document.querySelector('.hero');
+  if (hero) hero.style.minHeight = '700px';
+
+  // Fix nav position
   const navEl = document.getElementById('nav');
-  if (navEl) {
-    navEl.style.position = 'absolute';
-  }
-  // Make all reveal elements visible immediately (IntersectionObserver can be unreliable in iframes)
-  document.querySelectorAll('.reveal, .stagger-item').forEach(el => {
-    el.classList.add('visible');
-  });
-  // Disable preloader in iframe
+  if (navEl) navEl.style.position = 'absolute';
+
+  // Show all animated elements immediately
+  document.querySelectorAll('.reveal, .stagger-item').forEach(el => el.classList.add('visible'));
+
+  // Disable preloader
   const preloader = document.getElementById('preloader');
   if (preloader) preloader.classList.add('hidden');
+
+  // Send height to parent after layout settles
+  function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage({ type: 'iframeHeight', height: height }, '*');
+  }
+  window.addEventListener('load', () => setTimeout(sendHeight, 1000));
+  setTimeout(sendHeight, 1500);
 }
 </script>
 
