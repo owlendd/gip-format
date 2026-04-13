@@ -32,7 +32,7 @@
   --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 80px; }
 
 body {
   font-family: var(--font-main);
@@ -2407,7 +2407,7 @@ body {
           </div>
           <div>
             <h4>Сайт</h4>
-            <p><a href="http://gip-f.ru" target="_blank">gip-f.ru</a></p>
+            <p><a href="https://gip-f.ru" target="_blank" rel="noopener noreferrer">gip-f.ru</a></p>
           </div>
         </div>
       </div>
@@ -2496,7 +2496,7 @@ body {
 </footer>
 
 <!-- BANK DETAILS MODAL -->
-<div id="bankModal" style="display:none; position:fixed; inset:0; z-index:10001; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px;" onclick="if(event.target===this)this.style.display='none'">
+<div id="bankModal" role="dialog" aria-modal="true" aria-label="Банковские реквизиты" style="display:none; position:fixed; inset:0; z-index:10001; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px;" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:var(--white); border-radius:16px; padding:40px; max-width:600px; width:100%; position:relative; animation: modalIn 0.4s ease;">
     <button onclick="document.getElementById('bankModal').style.display='none'" style="position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer; padding:8px;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -2637,6 +2637,14 @@ function animateCounters() {
 }
 setTimeout(animateCounters, 1200);
 
+// Close bank modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('bankModal');
+    if (modal && modal.style.display === 'flex') modal.style.display = 'none';
+  }
+});
+
 // === IFRAME MODE ===
 if (window !== window.top) {
   // Fix hero height: use window.innerHeight (actual viewport) instead of 100vh (which causes loop)
@@ -2660,7 +2668,7 @@ if (window !== window.top) {
   // Send height to parent after layout settles
   function sendHeight() {
     const height = document.documentElement.scrollHeight;
-    window.parent.postMessage({ type: 'iframeHeight', height: height }, '*');
+    window.parent.postMessage({ type: 'iframeHeight', height: height }, 'https://gip-f.ru');
   }
   window.addEventListener('load', () => setTimeout(sendHeight, 1000));
   setTimeout(sendHeight, 1500);
