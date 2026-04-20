@@ -32,15 +32,22 @@
   --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-html { scroll-behavior: smooth; font-size: 16px; scroll-padding-top: 80px; }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  /* overflow-x на html (а не на body) чинит зависающий вертикальный
+     скролл на некоторых сборках Chrome/Edge под Windows */
+  overflow-x: clip;
+}
 
 body {
   font-family: var(--font-main);
   color: var(--gray-900);
   background: var(--white);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
 /* ── SCROLLBAR ── */
@@ -88,8 +95,10 @@ body {
   align-items: center;
   justify-content: center;
   transition: opacity 0.6s, visibility 0.6s;
+  /* даже если JS не сработает — прелоадер не должен блокировать скролл */
+  pointer-events: none;
 }
-#preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#preloader.hidden { opacity: 0; visibility: hidden; }
 #preloader svg { width: 80px; height: 80px; animation: pulse 1.2s infinite; }
 @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
 
@@ -2407,7 +2416,7 @@ body {
           </div>
           <div>
             <h4>Сайт</h4>
-            <p><a href="https://gip-f.ru" target="_blank" rel="noopener noreferrer">gip-f.ru</a></p>
+            <p><a href="http://gip-f.ru" target="_blank">gip-f.ru</a></p>
           </div>
         </div>
       </div>
@@ -2496,7 +2505,7 @@ body {
 </footer>
 
 <!-- BANK DETAILS MODAL -->
-<div id="bankModal" role="dialog" aria-modal="true" aria-label="Банковские реквизиты" style="display:none; position:fixed; inset:0; z-index:10001; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px;" onclick="if(event.target===this)this.style.display='none'">
+<div id="bankModal" style="display:none; position:fixed; inset:0; z-index:10001; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px;" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:var(--white); border-radius:16px; padding:40px; max-width:600px; width:100%; position:relative; animation: modalIn 0.4s ease;">
     <button onclick="document.getElementById('bankModal').style.display='none'" style="position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer; padding:8px;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -2515,16 +2524,40 @@ body {
 </div>
 
 <script>
-// Preloader
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600);
-});
+// Preloader — прячем по load, но с подстраховкой:
+// если load не случится (зависшая картинка/сторонний ресурс) — всё равно уберём
+(function hidePreloaderSafely() {
+  const preloader = document.getElementById('preloader');
+  if (!preloader) return;
+  let hidden = false;
+  const hide = () => {
+    if (hidden) return;
+    hidden = true;
+    preloader.classList.add('hidden');
+  };
+  window.addEventListener('load', () => setTimeout(hide, 400));
+  // максимум 2.5 сек — дальше в любом случае убираем
+  setTimeout(hide, 2500);
+  // и по DOMContentLoaded как самый ранний сигнал «страница интерактивна»
+  if (document.readyState !== 'loading') {
+    setTimeout(hide, 1200);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(hide, 1200));
+  }
+})();
 
-// Nav scroll
+// Nav scroll — фиксированное меню меняет фон при скролле.
+// Используем passive listener + rAF throttle чтобы не тормозить слабые машины.
 const nav = document.getElementById('nav');
+let navTicking = false;
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-});
+  if (navTicking) return;
+  navTicking = true;
+  requestAnimationFrame(() => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    navTicking = false;
+  });
+}, { passive: true });
 
 // Mobile menu
 const burger = document.getElementById('burger');
@@ -2566,18 +2599,25 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Parallax effect on hero
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const heroShape = document.querySelector('.hero-shape');
-  const heroGrid = document.querySelector('.hero-grid');
-  if (heroShape && scrollY < window.innerHeight) {
-    heroShape.style.transform = `translateY(calc(-50% + ${scrollY * 0.15}px))`;
-  }
-  if (heroGrid && scrollY < window.innerHeight) {
-    heroGrid.style.transform = `translateY(${scrollY * 0.08}px)`;
-  }
-});
+// Parallax effect on hero — passive + rAF + отключаем на слабых/reduced-motion
+const heroShape = document.querySelector('.hero-shape');
+const heroGrid = document.querySelector('.hero-grid');
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!prefersReduced && (heroShape || heroGrid)) {
+  let paraTicking = false;
+  window.addEventListener('scroll', () => {
+    if (paraTicking) return;
+    paraTicking = true;
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      if (scrollY < window.innerHeight) {
+        if (heroShape) heroShape.style.transform = `translateY(calc(-50% + ${scrollY * 0.15}px))`;
+        if (heroGrid) heroGrid.style.transform = `translateY(${scrollY * 0.08}px)`;
+      }
+      paraTicking = false;
+    });
+  }, { passive: true });
+}
 
 // Tilt effect on service cards
 document.querySelectorAll('.service-card').forEach(card => {
@@ -2636,43 +2676,6 @@ function animateCounters() {
   });
 }
 setTimeout(animateCounters, 1200);
-
-// Close bank modal on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('bankModal');
-    if (modal && modal.style.display === 'flex') modal.style.display = 'none';
-  }
-});
-
-// === IFRAME MODE ===
-if (window !== window.top) {
-  // Fix hero height: use window.innerHeight (actual viewport) instead of 100vh (which causes loop)
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    const vh = window.innerHeight || 900;
-    hero.style.minHeight = Math.max(vh, 700) + 'px';
-  }
-
-  // Fix nav position
-  const navEl = document.getElementById('nav');
-  if (navEl) navEl.style.position = 'absolute';
-
-  // Show all animated elements immediately
-  document.querySelectorAll('.reveal, .stagger-item').forEach(el => el.classList.add('visible'));
-
-  // Disable preloader
-  const preloader = document.getElementById('preloader');
-  if (preloader) preloader.classList.add('hidden');
-
-  // Send height to parent after layout settles
-  function sendHeight() {
-    const height = document.documentElement.scrollHeight;
-    window.parent.postMessage({ type: 'iframeHeight', height: height }, 'https://gip-f.ru');
-  }
-  window.addEventListener('load', () => setTimeout(sendHeight, 1000));
-  setTimeout(sendHeight, 1500);
-}
 </script>
 
 </body>
