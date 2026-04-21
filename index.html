@@ -228,7 +228,12 @@ body {
   position: relative;
   min-height: 100vh;
   display: flex;
+  /* safe center: если контент выше viewport — прижимается к старту
+     и не заезжает под фикс-навбар. Обычный center переполняется в обе стороны */
   align-items: center;
+  align-items: safe center;
+  /* запас сверху под навбар — 100px больше его высоты с запасом */
+  padding: 100px 0 60px;
   background: var(--black);
   overflow: hidden;
 }
@@ -381,6 +386,12 @@ body {
 @media (max-width: 768px) {
   .hero-stats { gap: 24px; flex-wrap: wrap; }
   .hero-shape { display: none; }
+}
+
+/* Короткие окна: отключаем центрирование, прижимаем контент к верху
+   под навбар — fallback для браузеров без поддержки `safe center` */
+@media (max-height: 900px) {
+  .hero { align-items: flex-start; }
 }
 
 /* ── ABOUT ── */
