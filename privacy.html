@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Политика конфиденциальности — ГИП ФОРМАТ</title>
+<meta name="description" content="Политика обработки персональных данных ООО «Группа Инженерного Проектирования «ФОРМАТ»">
+<meta name="robots" content="index, follow">
+
+<!-- Локальные шрифты — без Google Fonts -->
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-Variable.woff2') format('woff2-variations'),
+       url('fonts/Inter-Variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('fonts/JetBrainsMono-Variable.woff2') format('woff2-variations'),
+       url('fonts/JetBrainsMono-Variable.woff2') format('woff2');
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green-primary: #8BC34A;
+  --green-dark: #689F38;
+  --green-darker: #558B2F;
+  --green-accent: #CDDC39;
+  --black: #1A1A1A;
+  --black-soft: #2D2D2D;
+  --gray-700: #555555;
+  --gray-300: #CCCCCC;
+  --gray-100: #F5F5F5;
+  --white: #FFFFFF;
+  --line: rgba(0,0,0,0.08);
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: clip; }
+body {
+  font-family: var(--font-main);
+  background: var(--white);
+  color: #2D2D2D;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* ── Шапка-навигация (упрощённая, чтобы был путь обратно) ── */
+.nav {
+  background: var(--black);
+  color: var(--white);
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(139, 195, 74, 0.15);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--white);
+}
+.nav-logo svg { width: 36px; height: 36px; }
+.nav-logo-text {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+.nav-logo-text span { color: var(--green-primary); }
+.nav-back {
+  font-size: 0.85rem;
+  color: var(--green-primary);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+.nav-back:hover { color: var(--green-light); }
+.nav-back svg { width: 16px; height: 16px; }
+
+/* ── Hero ── */
+.hero {
+  background: var(--black);
+  color: var(--white);
+  padding: 80px 0 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(139, 195, 74, 0.08), transparent 60%);
+}
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+}
+.hero-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--green-primary);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-label::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--green-primary);
+}
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--green-primary);
+}
+.hero-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  margin-top: 24px;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.hero-meta b { color: var(--green-accent); font-weight: 500; }
+
+/* ── Контент ── */
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 64px 32px 96px;
+}
+section {
+  margin-bottom: 48px;
+}
+section h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--green-primary);
+  display: inline-block;
+}
+section h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--black);
+  margin: 24px 0 8px;
+}
+section p {
+  margin-bottom: 12px;
+  color: #444;
+}
+section ul, section ol {
+  margin: 12px 0 12px 24px;
+  color: #444;
+}
+section li {
+  margin-bottom: 6px;
+}
+strong { color: var(--black); }
+
+/* блок «Реквизиты оператора» */
+.operator-card {
+  background: var(--gray-100);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 24px 0;
+  border-left: 4px solid var(--green-primary);
+}
+.operator-card dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 24px;
+  font-size: 0.92rem;
+}
+.operator-card dt {
+  color: var(--gray-700);
+}
+.operator-card dd {
+  font-weight: 500;
+  color: var(--black);
+}
+.operator-card a {
+  color: var(--green-darker);
+  text-decoration: none;
+}
+.operator-card a:hover {
+  color: var(--green-primary);
+}
+
+/* блок «Внимание / TODO для юриста» */
+.callout {
+  background: rgba(255, 220, 100, 0.12);
+  border: 1px solid rgba(255, 200, 50, 0.4);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  font-size: 0.9rem;
+  color: #6B5B0A;
+}
+.callout strong { color: #5A4906; }
+
+/* ── Footer ── */
+footer {
+  background: var(--black);
+  color: rgba(255, 255, 255, 0.5);
+  padding: 32px 0;
+  text-align: center;
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(139, 195, 74, 0.1);
+}
+footer a {
+  color: var(--green-primary);
+  text-decoration: none;
+}
+footer a:hover { color: var(--green-light); }
+
+/* мобилка */
+@media (max-width: 640px) {
+  .nav-inner { padding: 0 20px; }
+  .hero-inner { padding: 0 20px; }
+  main { padding: 40px 20px 64px; }
+  .operator-card { padding: 18px 20px; }
+  .operator-card dl { grid-template-columns: 1fr; gap: 4px 0; }
+  .operator-card dt { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .operator-card dd { margin-bottom: 8px; font-size: 0.92rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 100 90" fill="none">
+        <path d="M50 5L5 42L20 52L50 28L80 52L95 42L50 5Z" fill="#8BC34A"/>
+        <path d="M20 42L20 52L30 52L30 68L20 68Z" fill="#333"/>
+        <path d="M80 52L95 42L95 68L80 68Z" fill="#CDDC39"/>
+      </svg>
+      <span class="nav-logo-text">ГИП <span>ФОРМАТ</span></span>
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      На&nbsp;главную
+    </a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Документ · 152-ФЗ</div>
+    <h1>Политика обработки<br><em>персональных&nbsp;данных</em></h1>
+    <div class="hero-meta">
+      <span>Редакция от <b>__.__.2026</b></span>
+      <span>Действует с момента публикации</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<div class="callout">
+  <strong>⚠️ Это шаблон.</strong> Перед публикацией показать юристу. Места, требующие
+  заполнения, отмечены <code>[в&nbsp;квадратных&nbsp;скобках]</code>. После проверки
+  и утверждения этот блок удалить.
+</div>
+
+<section>
+  <h2>1. Общие положения</h2>
+  <p>Настоящая Политика обработки персональных данных (далее — «Политика») определяет
+  порядок обработки и защиты персональных данных физических лиц (далее — «Пользователи»),
+  пользующихся сайтом <strong>gip-f.ru</strong> (далее — «Сайт»).</p>
+
+  <p>Оператором персональных данных в соответствии с Федеральным законом от 27.07.2006
+  № 152-ФЗ «О персональных данных» (далее — «Закон») является:</p>
+
+  <div class="operator-card">
+    <dl>
+      <dt>Полное наименование</dt>
+      <dd>Общество с ограниченной ответственностью «Группа Инженерного Проектирования «ФОРМАТ»</dd>
+
+      <dt>Сокращённое</dt>
+      <dd>ООО «ГИП «ФОРМАТ»</dd>
+
+      <dt>Руководитель</dt>
+      <dd>Камбулатов Руслан Юлаевич</dd>
+
+      <dt>ИНН</dt>
+      <dd>0278912024</dd>
+
+      <dt>ОГРН</dt>
+      <dd>1150280076242</dd>
+
+      <dt>Юр. адрес</dt>
+      <dd>450106, Республика Башкортостан, г. Уфа, ул. Степана Кувыкина, д. 31, кв. 77</dd>
+
+      <dt>Факт. адрес</dt>
+      <dd>450005, Республика Башкортостан, г. Уфа, ул. Революционная, д. 96/5</dd>
+
+      <dt>Электронная почта</dt>
+      <dd><a href="mailto:gipformat@yandex.ru">gipformat@yandex.ru</a></dd>
+
+      <dt>Телефон</dt>
+      <dd><a href="tel:+79871413111">+7 (987) 141-31-11</a></dd>
+
+      <dt>Регистрация в реестре операторов ПДн</dt>
+      <dd>№ <strong>[номер записи в реестре]</strong> от <strong>[дата]</strong></dd>
+    </dl>
+  </div>
+
+  <p>Настоящая Политика составлена в соответствии с требованиями Закона и определяет
+  порядок обработки персональных данных, а также меры по обеспечению безопасности
+  персональных данных, принимаемые Оператором.</p>
+
+  <p>Оператор ставит своей целью соблюдение прав и свобод человека и гражданина при
+  обработке персональных данных, в том числе защиты прав на неприкосновенность частной
+  жизни, личную и семейную тайну.</p>
+</section>
+
+<section>
+  <h2>2. Какие персональные данные обрабатываются</h2>
+
+  <h3>2.1. Данные, которые Пользователь предоставляет добровольно</h3>
+  <p>При заполнении формы обратной связи на Сайте обрабатываются следующие данные:</p>
+  <ul>
+    <li>фамилия, имя (поле «Имя»);</li>
+    <li>контактный телефон;</li>
+    <li>адрес электронной почты;</li>
+    <li>текст обращения (поле «Сообщение»).</li>
+  </ul>
+
+  <h3>2.2. Технические данные, собираемые автоматически</h3>
+  <p>При посещении Сайта автоматически фиксируются:</p>
+  <ul>
+    <li>IP-адрес устройства Пользователя;</li>
+    <li>тип и версия браузера, операционной системы;</li>
+    <li>дата и время посещения, переходы по страницам;</li>
+    <li>файлы cookies и аналогичные технологии (см. раздел 8).</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. Цели обработки персональных данных</h2>
+  <ul>
+    <li>обработка обращений Пользователей, поступивших через форму обратной связи;</li>
+    <li>оказание консультаций и подготовка коммерческих предложений;</li>
+    <li>заключение и исполнение договоров на проектные работы;</li>
+    <li>обеспечение работоспособности и безопасности Сайта;</li>
+    <li>анализ посещаемости и улучшение работы Сайта.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>4. Правовые основания обработки</h2>
+  <p>Оператор обрабатывает персональные данные Пользователя на следующих основаниях:</p>
+  <ul>
+    <li>согласие Пользователя на обработку его персональных данных
+    (п. 1 ч. 1 ст. 6 Закона), выраженное путём проставления соответствующей
+    отметки при отправке формы обратной связи;</li>
+    <li>заключение и исполнение договора, стороной которого является Пользователь
+    (п. 5 ч. 1 ст. 6 Закона);</li>
+    <li>осуществление прав и законных интересов Оператора
+    (п. 7 ч. 1 ст. 6 Закона).</li>
+  </ul>
+</section>
+
+<section>
+  <h2>5. Принципы и способы обработки</h2>
+  <p>Обработка персональных данных Оператором осуществляется на законной и справедливой
+  основе. Обработка ограничивается достижением конкретных, заранее определённых и законных
+  целей.</p>
+  <p>Оператор обрабатывает персональные данные следующими способами: сбор, запись,
+  систематизация, накопление, хранение, уточнение (обновление, изменение), извлечение,
+  использование, передача (предоставление, доступ), удаление, уничтожение —
+  с использованием средств автоматизации и без таковых.</p>
+</section>
+
+<section>
+  <h2>6. Сроки хранения и условия прекращения обработки</h2>
+  <p>Персональные данные Пользователя хранятся в течение <strong>3 (трёх) лет</strong> с момента
+  последнего взаимодействия Пользователя с Оператором, если иной срок не установлен
+  законодательством или согласием Пользователя.</p>
+  <p>По истечении срока хранения, либо при отзыве Пользователем согласия на обработку,
+  либо при достижении целей обработки персональные данные подлежат уничтожению в течение
+  <strong>30 (тридцати) дней</strong>.</p>
+</section>
+
+<section>
+  <h2>7. Передача персональных данных третьим лицам</h2>
+  <p>Оператор не передаёт персональные данные Пользователей третьим лицам, за исключением
+  случаев, предусмотренных законодательством Российской Федерации, и следующих ситуаций:</p>
+
+  <h3>7.1. Поставщики технических услуг</h3>
+  <p>Для обеспечения работы Сайта Оператор использует следующие сервисы, которые могут
+  получать доступ к техническим данным Пользователей:</p>
+  <ul>
+    <li><strong>GitHub Pages</strong> (хостинг статических файлов сайта; компания
+    GitHub Inc., США) — обрабатывает IP-адреса посетителей в технических логах;</li>
+    <li><strong>Tilda Publishing</strong> (платформа, через которую сайт встроен на
+    домене gip-f.ru; ООО «Тильда Паблишинг», РФ);</li>
+    <li><strong>FormSubmit.co</strong> (сервис передачи заявок с формы обратной связи
+    на e-mail Оператора; США) — обрабатывает данные, введённые в форме обратной связи.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>📋 Для юр.отдела:</strong> в течение
+    <strong>10 рабочих дней</strong> после регистрации в реестре операторов
+    необходимо уведомить РКН о трансграничной передаче ПДн в США (GitHub, FormSubmit) —
+    отдельная форма на портале РКН. Альтернатива: заменить FormSubmit и хостинг на
+    российские аналоги (см. INSTRUCTIONS.md).
+  </div>
+
+  <h3>7.2. Передача по требованию государственных органов</h3>
+  <p>Персональные данные могут быть переданы по запросу уполномоченных государственных
+  органов в случаях, предусмотренных законодательством РФ.</p>
+</section>
+
+<section>
+  <h2>8. Файлы cookies</h2>
+  <p>Сайт использует файлы cookies — небольшие текстовые файлы, сохраняемые в браузере
+  Пользователя для следующих целей:</p>
+  <ul>
+    <li><strong>Технические cookies</strong> — необходимые для базовой работы сайта
+    (запоминание выбора языка, согласия на cookies);</li>
+    <li><strong>Аналитические cookies</strong> — анализ посещаемости и улучшение
+    работы Сайта (если используется счётчик посещений);</li>
+    <li><strong>Cookies платформы Tilda</strong> — могут устанавливаться платформой,
+    на которой размещён сайт.</li>
+  </ul>
+  <p>Пользователь может отключить файлы cookies в настройках своего браузера. Отключение
+  технических cookies может привести к ограничению функциональности Сайта.</p>
+</section>
+
+<section>
+  <h2>9. Меры по защите персональных данных</h2>
+  <p>Оператор принимает необходимые правовые, организационные и технические меры для
+  защиты персональных данных от неправомерного или случайного доступа к ним, уничтожения,
+  изменения, блокирования, копирования, предоставления, распространения, а также от иных
+  неправомерных действий, в том числе:</p>
+  <ul>
+    <li>назначен ответственный за организацию обработки персональных данных;</li>
+    <li>утверждены локальные акты по обработке и защите персональных данных;</li>
+    <li>применяются средства защиты информации (антивирусы, межсетевые экраны);</li>
+    <li>используется передача данных по защищённым каналам (HTTPS / TLS);</li>
+    <li>обеспечивается ограниченный доступ к персональным данным сотрудников.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>10. Права субъекта персональных данных</h2>
+  <p>Пользователь имеет право:</p>
+  <ul>
+    <li>получать сведения об обработке его персональных данных Оператором;</li>
+    <li>требовать уточнения, блокирования или уничтожения своих персональных данных,
+    если они являются неполными, устаревшими, неточными, незаконно полученными или
+    не являются необходимыми для заявленной цели обработки;</li>
+    <li>отозвать ранее данное согласие на обработку персональных данных;</li>
+    <li>обжаловать действия или бездействие Оператора в Роскомнадзоре или в судебном
+    порядке.</li>
+  </ul>
+  <p>Для реализации указанных прав Пользователь может направить запрос на адрес
+  электронной почты Оператора <a href="mailto:gipformat@yandex.ru">gipformat@yandex.ru</a>
+  или по почтовому адресу: 450005, г. Уфа, ул. Революционная, 96/5.</p>
+</section>
+
+<section>
+  <h2>11. Отзыв согласия на обработку</h2>
+  <p>Пользователь вправе в любой момент отозвать своё согласие на обработку персональных
+  данных, направив Оператору письменное заявление одним из следующих способов:</p>
+  <ul>
+    <li>по электронной почте <a href="mailto:gipformat@yandex.ru" style="color: var(--green-darker)">gipformat@yandex.ru</a>
+    с пометкой «Отзыв согласия на обработку ПДн»;</li>
+    <li>заказным письмом по почтовому адресу Оператора.</li>
+  </ul>
+  <p>В течение 30 дней с момента получения заявления Оператор прекращает обработку
+  персональных данных Пользователя и уничтожает их, за исключением случаев, когда
+  продолжение обработки требуется в силу закона.</p>
+</section>
+
+<section>
+  <h2>12. Изменения настоящей Политики</h2>
+  <p>Оператор вправе вносить изменения в настоящую Политику. Новая редакция вступает
+  в силу с момента её размещения на Сайте, если иное не предусмотрено новой редакцией.
+  Действующая редакция всегда доступна по адресу
+  <a href="https://gip-f.ru/privacy.html" style="color: var(--green-darker)">https://gip-f.ru/privacy.html</a>.</p>
+</section>
+
+<section>
+  <h2>13. Контакты для обращений по вопросам ПДн</h2>
+  <p>По всем вопросам, связанным с обработкой персональных данных, Пользователь может
+  обратиться:</p>
+  <div class="operator-card">
+    <dl>
+      <dt>Ответственное лицо</dt>
+      <dd><strong>[ФИО ответственного за обработку ПДн]</strong></dd>
+
+      <dt>Электронная почта</dt>
+      <dd><a href="mailto:gipformat@yandex.ru">gipformat@yandex.ru</a></dd>
+
+      <dt>Телефон</dt>
+      <dd><a href="tel:+79871413111">+7 (987) 141-31-11</a></dd>
+
+      <dt>Почтовый адрес</dt>
+      <dd>450005, г. Уфа, ул. Революционная, 96/5</dd>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; 2015–2026 ООО «ГИП «ФОРМАТ» · ИНН 0278912024 · ОГРН 1150280076242</p>
+  <p style="margin-top: 8px;"><a href="index.html">Вернуться на главную</a></p>
+</footer>
+
+</body>
+</html>

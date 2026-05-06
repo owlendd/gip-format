@@ -5,9 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ГИП ФОРМАТ — Проектный институт | Архитектура и проектирование</title>
 <meta name="description" content="Группа Инженерного Проектирования ФОРМАТ — проектный институт в Уфе. Архитектурное проектирование, BIM-моделирование, инженерные изыскания.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Локальные шрифты — без Google Fonts, чтобы не передавать IP пользователей за границу.
+     Файлы лежат в /fonts/ рядом с index.html -->
 <style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('fonts/Inter-Variable.woff2') format('woff2-variations'),
+       url('fonts/Inter-Variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('fonts/JetBrainsMono-Variable.woff2') format('woff2-variations'),
+       url('fonts/JetBrainsMono-Variable.woff2') format('woff2');
+}
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -227,13 +244,11 @@ body {
 .hero {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  /* safe center: если контент выше viewport — прижимается к старту
-     и не заезжает под фикс-навбар. Обычный center переполняется в обе стороны */
-  align-items: center;
-  align-items: safe center;
-  /* запас сверху под навбар — 100px больше его высоты с запасом */
-  padding: 100px 0 60px;
+  /* Без flex-центровки: она переполняется в обе стороны, когда контент выше
+     viewport — и бейдж заезжает под фикс-навбар. Здесь просто прижимаем
+     контент сверху под навбар достаточным padding-top. */
+  display: block;
+  padding: 140px 0 80px;
   background: var(--black);
   overflow: hidden;
 }
@@ -386,12 +401,6 @@ body {
 @media (max-width: 768px) {
   .hero-stats { gap: 24px; flex-wrap: wrap; }
   .hero-shape { display: none; }
-}
-
-/* Короткие окна: отключаем центрирование, прижимаем контент к верху
-   под навбар — fallback для браузеров без поддержки `safe center` */
-@media (max-height: 900px) {
-  .hero { align-items: flex-start; }
 }
 
 /* ── ABOUT ── */
@@ -1098,6 +1107,158 @@ body {
   width: 100%;
   margin-top: 8px;
   justify-content: center;
+}
+.form-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: var(--gray-300);
+  color: var(--gray-700);
+}
+.form-submit:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background: var(--gray-300);
+}
+
+/* ── Чекбокс согласия на обработку ПДн ── */
+.form-consent { margin: 18px 0 8px; }
+.checkbox {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0; height: 0;
+}
+.checkbox-mark {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  border: 2px solid var(--gray-300);
+  border-radius: 4px;
+  background: var(--white);
+  transition: all 0.2s;
+  position: relative;
+  margin-top: 1px;
+}
+.checkbox input:checked + .checkbox-mark {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+}
+.checkbox input:checked + .checkbox-mark::after {
+  content: '';
+  position: absolute;
+  inset: 2px 4px 4px 4px;
+  border: solid var(--black);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  width: 6px; height: 11px;
+  top: 1px; left: 4px;
+}
+.checkbox input:focus-visible + .checkbox-mark {
+  box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.25);
+}
+.checkbox-text {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--gray-700);
+}
+.checkbox-text a {
+  color: var(--green-darker);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.checkbox-text a:hover { color: var(--green-primary); }
+
+/* ── Cookie-баннер ── */
+.cookie-banner {
+  position: fixed;
+  left: 16px; right: 16px; bottom: 16px;
+  z-index: 9000;
+  background: rgba(26, 26, 26, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 195, 74, 0.18);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  color: var(--white);
+  animation: cookieIn 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.cookie-banner--hide {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+@keyframes cookieIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cookie-banner-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cookie-banner-text {
+  flex: 1;
+  min-width: 280px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+.cookie-banner-text strong { color: var(--white); font-weight: 600; }
+.cookie-banner-text a {
+  color: var(--green-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cookie-banner-text a:hover { color: var(--green-light); }
+.cookie-banner-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cookie-btn {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.cookie-btn-accept {
+  background: var(--green-primary);
+  color: var(--black);
+}
+.cookie-btn-accept:hover {
+  background: var(--green-light);
+  transform: translateY(-1px);
+}
+.cookie-btn-decline {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.cookie-btn-decline:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--white);
+}
+@media (max-width: 640px) {
+  .cookie-banner { left: 8px; right: 8px; bottom: 8px; }
+  .cookie-banner-inner { padding: 14px 18px; gap: 14px; }
+  .cookie-banner-text { font-size: 0.78rem; }
+  .cookie-btn { padding: 9px 16px; font-size: 0.78rem; flex: 1; }
 }
 
 @media (max-width: 960px) {
@@ -2434,7 +2595,11 @@ body {
 
       <div class="contact-form reveal">
         <h3>Оставить заявку</h3>
-        <form action="https://formsubmit.co/gipformat@yandex.ru" method="POST">
+        <!-- TODO (юр.отдел): заменить formsubmit.co (хостинг США) на российский сервис.
+             Варианты: форма Тильды, Yandex.Forms, собственный backend на РФ-хостинге.
+             До замены передача данных за границу обязательно прописывается в Политике
+             конфиденциальности и в уведомлении в РКН. -->
+        <form action="https://formsubmit.co/gipformat@yandex.ru" method="POST" id="contactForm">
           <input type="hidden" name="_subject" value="Новая заявка с сайта ГИП ФОРМАТ">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_next" value="https://owlendd.github.io/gip-format/">
@@ -2457,7 +2622,22 @@ body {
             <label>Сообщение</label>
             <textarea name="message" placeholder="Опишите ваш проект или задачу..."></textarea>
           </div>
-          <button type="submit" class="btn btn-primary form-submit">Отправить заявку</button>
+
+          <!-- Согласие на обработку ПДн (требование 152-ФЗ).
+               Без галочки кнопка отправки не активируется. -->
+          <div class="form-consent">
+            <label class="checkbox">
+              <input type="checkbox" name="consent" id="consent" required>
+              <span class="checkbox-mark" aria-hidden="true"></span>
+              <span class="checkbox-text">
+                Я даю согласие на обработку персональных данных в соответствии с
+                <a href="privacy.html" target="_blank" rel="noopener">Политикой&nbsp;конфиденциальности</a>
+                и подтверждаю, что ознакомлен с условиями обработки.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary form-submit" disabled>Отправить заявку</button>
         </form>
       </div>
     </div>
@@ -2507,6 +2687,7 @@ body {
     </div>
     <div class="footer-bottom">
       <span>&copy; 2015–2026 ООО «ГИП «ФОРМАТ». Все права защищены.</span>
+      <span><a href="privacy.html" style="color: rgba(255,255,255,0.65); text-decoration: underline; text-underline-offset: 3px;">Политика&nbsp;конфиденциальности</a></span>
       <span>ИНН 0278912024 &middot; ОГРН 1150280076242</span>
     </div>
     <div class="footer-credit">
@@ -2687,6 +2868,76 @@ function animateCounters() {
   });
 }
 setTimeout(animateCounters, 1200);
+
+/* ── Чекбокс согласия включает кнопку отправки ── */
+(function () {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  const consent = form.querySelector('#consent');
+  const submit = form.querySelector('.form-submit');
+  if (!consent || !submit) return;
+  const sync = () => { submit.disabled = !consent.checked; };
+  consent.addEventListener('change', sync);
+  sync();
+})();
+
+/* ── Cookie-баннер. Запоминает выбор в localStorage ── */
+(function () {
+  const KEY = 'gipf_cookie_consent_v1';
+  if (localStorage.getItem(KEY)) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'cookie-banner';
+  banner.setAttribute('role', 'dialog');
+  banner.setAttribute('aria-live', 'polite');
+  banner.setAttribute('aria-label', 'Уведомление о cookies');
+
+  const inner = document.createElement('div');
+  inner.className = 'cookie-banner-inner';
+
+  const text = document.createElement('div');
+  text.className = 'cookie-banner-text';
+  const t1 = document.createElement('strong');
+  t1.textContent = 'Мы используем файлы cookie';
+  const t2 = document.createElement('span');
+  t2.textContent = ' для корректной работы сайта и анализа посещаемости. Продолжая просмотр, вы соглашаетесь с обработкой данных согласно ';
+  const link = document.createElement('a');
+  link.href = 'privacy.html';
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.textContent = 'Политике конфиденциальности';
+  const t3 = document.createElement('span');
+  t3.textContent = '.';
+  text.append(t1, t2, link, t3);
+
+  const actions = document.createElement('div');
+  actions.className = 'cookie-banner-actions';
+
+  const btnAccept = document.createElement('button');
+  btnAccept.type = 'button';
+  btnAccept.className = 'cookie-btn cookie-btn-accept';
+  btnAccept.textContent = 'Согласен';
+  btnAccept.addEventListener('click', () => {
+    localStorage.setItem(KEY, 'accepted-' + Date.now());
+    banner.classList.add('cookie-banner--hide');
+    setTimeout(() => banner.remove(), 350);
+  });
+
+  const btnDecline = document.createElement('button');
+  btnDecline.type = 'button';
+  btnDecline.className = 'cookie-btn cookie-btn-decline';
+  btnDecline.textContent = 'Только необходимые';
+  btnDecline.addEventListener('click', () => {
+    localStorage.setItem(KEY, 'minimal-' + Date.now());
+    banner.classList.add('cookie-banner--hide');
+    setTimeout(() => banner.remove(), 350);
+  });
+
+  actions.append(btnDecline, btnAccept);
+  inner.append(text, actions);
+  banner.appendChild(inner);
+  document.body.appendChild(banner);
+})();
 </script>
 
 </body>
